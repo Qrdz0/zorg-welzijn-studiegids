@@ -3,323 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zorg & Welzijn - Interactieve Studie Gids</title>
+    <title>Zorg & Welzijn - Studie Gids</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #2e7d32;
-            --primary-light: #4caf50;
-            --bg: #f4f7f6;
+            --primary: #0ea5e9; /* Modern Medical Blue */
+            --primary-dark: #0284c7;
+            --secondary: #10b981; /* Healthy Green */
+            --bg: #f8fafc;
             --card-bg: #ffffff;
-            --text: #333333;
-            --text-light: #666666;
-            --border: #e0e0e0;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-hover: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
+            background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%);
+            color: var(--text-main);
+            min-height: 100vh;
             padding: 20px;
             line-height: 1.6;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            color: var(--primary);
-            margin-bottom: 5px;
-        }
-
-        .header p {
-            color: var(--text-light);
-            font-size: 1.1em;
-        }
+        .header { text-align: center; margin-bottom: 30px; padding-top: 20px; }
+        .header h1 { color: var(--primary-dark); font-size: 2.5rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .header p { color: var(--text-muted); font-size: 1.1rem; }
 
         .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
+            display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap;
         }
 
         .tab-btn {
-            padding: 12px 24px;
-            font-size: 16px;
-            border: none;
-            background-color: var(--card-bg);
-            color: var(--text);
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            font-weight: 600;
+            padding: 12px 24px; font-size: 1rem; border: none; background-color: var(--card-bg); color: var(--text-muted);
+            border-radius: 50px; cursor: pointer; box-shadow: var(--shadow); transition: all 0.3s ease; font-weight: 600;
+            display: flex; align-items: center; gap: 8px;
+        }
+        
+        .tab-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); color: var(--primary-dark); }
+        .tab-btn.active { background-color: var(--primary); color: white; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4); }
+
+        .content-area { max-width: 800px; margin: 0 auto; }
+        .topic-card { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .topic-card.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ACCORDION STYLES */
+        .accordion {
+            background-color: var(--card-bg); border-radius: 12px; box-shadow: var(--shadow); margin-bottom: 15px; overflow: hidden; border: 1px solid var(--border);
         }
 
-        .tab-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        .accordion-header {
+            padding: 18px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 1.1rem; color: var(--primary-dark); transition: background 0.2s;
         }
 
-        .tab-btn.active {
-            background-color: var(--primary);
-            color: white;
-            box-shadow: 0 4px 10px rgba(46, 125, 50, 0.3);
-        }
+        .accordion-header:hover { background-color: #f1f5f9; }
+        .accordion-header i { transition: transform 0.3s; }
+        .accordion.active .accordion-header i { transform: rotate(180deg); }
 
-        .content-area {
-            max-width: 800px;
-            margin: 0 auto;
+        .accordion-content {
+            max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background-color: var(--card-bg); padding: 0 20px;
         }
+        .accordion.active .accordion-content { max-height: 1000px; padding-bottom: 20px; border-top: 1px solid var(--border); }
 
-        .topic-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border-left: 5px solid var(--primary);
-            display: none; 
-            animation: fadeIn 0.4s ease-in-out;
-        }
+        ul { padding-left: 20px; margin-top: 10px; }
+        li { margin-bottom: 8px; color: var(--text-main); }
+        .highlight { background-color: #dcfce7; color: #166534; padding: 2px 6px; border-radius: 4px; font-weight: 600; font-size: 0.95em; }
 
-        .topic-card.active {
-            display: block;
-        }
+        /* FLASHCARD STYLES */
+        .flashcard-wrapper { display: flex; flex-direction: column; align-items: center; margin-top: 20px; }
+        
+        .progress-container { width: 100%; max-width: 500px; height: 8px; background: #e2e8f0; border-radius: 10px; margin-bottom: 20px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--secondary); width: 0%; transition: width 0.3s ease; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .topic-card h2 {
-            color: var(--primary);
-            margin-top: 0;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        .topic-card h3 {
-            color: var(--text);
-            margin-bottom: 10px;
-        }
-
-        .topic-card ul {
-            padding-left: 20px;
-        }
-
-        .topic-card li {
-            margin-bottom: 8px;
-        }
-
-        .highlight {
-            background-color: #e8f5e9;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        /* --- FLASHCARD CSS --- */
-        .flashcard-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .flashcard {
-            background-color: transparent;
-            width: 100%;
-            max-width: 500px;
-            height: 250px;
-            perspective: 1000px;
-            cursor: pointer;
-            margin-bottom: 20px;
-        }
-
-        .flashcard-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-        }
-
-        .flashcard.flipped .flashcard-inner {
-            transform: rotateY(180deg);
-        }
-
+        .flashcard { background-color: transparent; width: 100%; max-width: 500px; height: 300px; perspective: 1000px; cursor: pointer; margin-bottom: 20px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        
         .flashcard-front, .flashcard-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            box-sizing: border-box;
-            font-size: 1.2em;
-            font-weight: 600;
+            position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden;
+            border-radius: 16px; box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center;
+            padding: 30px; box-sizing: border-box; font-size: 1.3rem; font-weight: 600;
         }
 
-        .flashcard-front {
-            background-color: #ffffff;
-            color: var(--primary);
-            border: 2px solid var(--primary-light);
-        }
-
-        .flashcard-back {
-            background-color: var(--primary);
-            color: white;
-            transform: rotateY(180deg);
-            font-size: 1.1em;
-        }
-
-        .flashcard-controls {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .flashcard-controls button {
-            padding: 10px 20px;
-            background-color: var(--primary-light);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-
-        .flashcard-controls button:hover {
-            background-color: var(--primary);
-        }
-
-        .card-counter {
-            font-weight: bold;
-            color: var(--text-light);
-        }
+        .flashcard-front { background-color: var(--card-bg); color: var(--primary-dark); border: 2px solid var(--primary); }
+        .flashcard-back { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; transform: rotateY(180deg); font-size: 1.1rem; font-weight: 400; }
+        
+        .flashcard-controls { display: flex; gap: 15px; align-items: center; margin-top: 10px; }
+        .flashcard-controls button { padding: 12px 24px; background-color: var(--card-bg); color: var(--primary-dark); border: 1px solid var(--border); border-radius: 50px; cursor: pointer; font-weight: 700; box-shadow: var(--shadow); transition: 0.2s; }
+        .flashcard-controls button:hover { background-color: var(--primary); color: white; border-color: var(--primary); }
+        .card-counter { font-weight: 700; color: var(--text-muted); background: var(--card-bg); padding: 8px 16px; border-radius: 20px; box-shadow: var(--shadow); }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>Zorg & Welzijn</h1>
+        <h1><i class="fa-solid fa-notes-medical"></i> Zorg & Welzijn</h1>
         <p>Interactieve Studie Gids</p>
     </div>
 
     <div class="tabs">
-        <button class="tab-btn active" onclick="openTab('ehbo')">EHBO</button>
-        <button class="tab-btn" onclick="openTab('spijsvertering')">Spijsvertering</button>
-        <button class="tab-btn" onclick="openTab('gezondheid')">Gezondheid & Preventie</button>
-        <button class="tab-btn" onclick="openTab('flashcards')">Oefen met Flashcards</button>
+        <button class="tab-btn active" onclick="openTab('ehbo', this)"><i class="fa-solid fa-briefcase-medical"></i> EHBO</button>
+        <button class="tab-btn" onclick="openTab('spijsvertering', this)"><i class="fa-solid fa-apple-whole"></i> Spijsvertering</button>
+        <button class="tab-btn" onclick="openTab('gezondheid', this)"><i class="fa-solid fa-heart-pulse"></i> Gezondheid</button>
+        <button class="tab-btn" onclick="openTab('flashcards', this)"><i class="fa-solid fa-clone"></i> Flashcards</button>
     </div>
 
     <div class="content-area">
         
         <!-- EHBO TAB -->
         <div id="ehbo" class="topic-card active">
-            <h2>Eerste Hulp Bij Ongelukken (EHBO)</h2>
             
-            <h3>De 6 Basisprincipes van EHBO</h3>
-            <ul>
-                <li><strong>1. Handel als eerstehulpverlener:</strong> Stel je in een noodsituatie op als hulpverlener.</li>
-                <li><strong>2. Blijf rustig:</strong> Noodsituaties komen onverwacht. Rustig blijven helpt je om niet impulsief te handelen.</li>
-                <li><strong>3. Verleen psychosociale hulp:</strong> Toon begrip voor emoties van slachtoffer en omstanders.</li>
-                <li><strong>4. Vermijd besmetting:</strong> Gebruik wegwerphandschoenen en een mondmasker om jezelf te beschermen.</li>
-                <li><strong>5. Zorg voor het comfort van het slachtoffer:</strong> Zorg voor beschutting, warmte en stel hen gerust.</li>
-                <li><strong>6. Houd rekening met emotionele reacties achteraf:</strong> Praat erover, zoek hulp als je er zelf last van hebt.</li>
-            </ul>
+            <div class="accordion" onclick="toggleAccordion(this)">
+                <div class="accordion-header">De 6 Basisprincipes van EHBO <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="accordion-content">
+                    <ul>
+                        <li><strong>1. Handel als eerstehulpverlener:</strong> Stel je in een noodsituatie op als hulpverlener.</li>
+                        <li><strong>2. Blijf rustig:</strong> Noodsituaties komen onverwacht. Rustig blijven helpt je om niet impulsief te handelen.</li>
+                        <li><strong>3. Verleen psychosociale hulp:</strong> Toon begrip voor emoties van slachtoffer en omstanders.</li>
+                        <li><strong>4. Vermijd besmetting:</strong> Gebruik wegwerphandschoenen en een mondmasker om jezelf te beschermen.</li>
+                        <li><strong>5. Zorg voor het comfort:</strong> Zorg voor beschutting, warmte en stel hen gerust.</li>
+                        <li><strong>6. Houd rekening met emotionele reacties:</strong> Praat erover, zoek hulp als je er zelf last van hebt.</li>
+                    </ul>
+                </div>
+            </div>
 
-            <h3>Snijwonde</h3>
-            <ul>
-                <li>Huid beschadigd door een scherp voorwerp (mes, glas).</li>
-                <li><span class="highlight">Oppervlakkig:</span> Kleine insnijding, lichte bloeding.</li>
-                <li><span class="highlight">Diep:</span> Heviger bloeden, scherp afgelijnde randen.</li>
-                <li>Minder pijnlijk dan een schaafwonde (minder zenuwuiteinden geraakt).</li>
-                <li><strong>Stappen:</strong> Veiligheid -> Beoordeel toestand -> Raadpleeg hulp (bij diepe/gepende wonden) -> Verleen eerste hulp (drukken, reinigen, steriel kompres, verband).</li>
-            </ul>
+            <div class="accordion" onclick="toggleAccordion(this)">
+                <div class="accordion-header">Snijwonde <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="accordion-content">
+                    <ul>
+                        <li>Huid beschadigd door een scherp voorwerp (mes, glas).</li>
+                        <li><span class="highlight">Oppervlakkig:</span> Kleine insnijding, lichte bloeding.</li>
+                        <li><span class="highlight">Diep:</span> Heviger bloeden, scherp afgelijnde randen.</li>
+                        <li>Minder pijnlijk dan een schaafwonde (minder zenuwuiteinden geraakt).</li>
+                        <li><strong>Stappen:</strong> Veiligheid -> Beoordeel -> Raadpleeg hulp -> Verleen eerste hulp (drukken, reinigen, steriel kompres, verband).</li>
+                    </ul>
+                </div>
+            </div>
 
-            <h3>Brandwonde</h3>
-            <ul>
-                <li>Ontstaat door warmte, elektriciteit, chemicaliën, straling of extreme kou (bevriezing).</li>
-                <li><span class="highlight">1e Graad:</span> Rood, licht gezwollen, pijnlijk (alleen opperhuid kapot).</li>
-                <li><span class="highlight">2e Graad:</span> Blaren, rood of wit, zeer pijnlijk (opperhuid en lederhuid kapot).</li>
-                <li><span class="highlight">3e Graad:</span> Zwart, wit of perkamentachtig. <strong>Niet pijnlijk</strong> (zenuwen zijn kapot).</li>
-                <li><strong>Stappen:</strong> Veiligheid -> Beoordeel -> Raadpleeg 112/dokter -> Koel minstens 10 min met lauw water. Verwijder geen vastzittende kleding. Dek af met steriel verband.</li>
-            </ul>
+            <div class="accordion" onclick="toggleAccordion(this)">
+                <div class="accordion-header">Brandwonde <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="accordion-content">
+                    <ul>
+                        <li>Ontstaat door warmte, elektriciteit, chemicaliën, straling of extreme kou.</li>
+                        <li><span class="highlight">1e Graad:</span> Rood, licht gezwollen, pijnlijk.</li>
+                        <li><span class="highlight">2e Graad:</span> Blaren, rood of wit, zeer pijnlijk.</li>
+                        <li><span class="highlight">3e Graad:</span> Zwart, wit of perkamentachtig. <strong>Niet pijnlijk</strong> (zenuwen zijn kapot).</li>
+                        <li><strong>Stappen:</strong> Veiligheid -> Beoordeel -> Raadpleeg 112 -> Koel minstens 10 min met lauw water. Verwijder geen vastzittende kleding.</li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <!-- SPIJSVERTERING TAB -->
         <div id="spijsvertering" class="topic-card">
-            <h2>Het Spijsverteringsstelsel</h2>
-            
-            <h3>De Weg van het Voedsel</h3>
-            <ul>
-                <li><strong>Mondholte:</strong> Tanden (mechanisch) en speeksel (chemisch, breekt zetmeel af).</li>
-                <li><strong>Keelholte & Slokdarm:</strong> Vervoer naar de maag.</li>
-                <li><strong>Maag:</strong> Spieren kneden het eten, maagsap breekt het verder af.</li>
-                <li><strong>Twaalfvingerige darm:</strong> Alvleessap en gal worden toegevoegd.</li>
-                <li><strong>Dunne darm:</strong> Voedingsstoffen worden opgenomen in het bloed.</li>
-                <li><strong>Dikke darm:</strong> Water wordt onttrokken aan de resten.</li>
-                <li><strong>Endeldarm & Aars:</strong> Verzamelen en uitscheiden van ontlasting.</li>
-            </ul>
+            <div class="accordion" onclick="toggleAccordion(this)">
+                <div class="accordion-header">De Weg van het Voedsel <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="accordion-content">
+                    <ul>
+                        <li><strong>Mondholte:</strong> Tanden (mechanisch) en speeksel (chemisch).</li>
+                        <li><strong>Keelholte & Slokdarm:</strong> Vervoer naar de maag.</li>
+                        <li><strong>Maag:</strong> Spieren kneden het eten, maagsap breekt het af.</li>
+                        <li><strong>Twaalfvingerige darm:</strong> Alvleessap en gal worden toegevoegd.</li>
+                        <li><strong>Dunne darm:</strong> Voedingsstoffen worden opgenomen in het bloed.</li>
+                        <li><strong>Dikke darm:</strong> Water wordt onttrokken aan de resten.</li>
+                        <li><strong>Endeldarm & Aars:</strong> Verzamelen en uitscheiden.</li>
+                    </ul>
+                </div>
+            </div>
 
-            <h3>Energiebalans</h3>
-            <ul>
-                <li>De balans tussen energie-inname (eten/drinken) en energieverbruik (bewegen/ademhalen).</li>
-                <li><span class="highlight">In evenwicht:</span> Je gewicht blijft gelijk.</li>
-                <li><span class="highlight">Overgewicht:</span> Meer energie binnen dan je verbruikt (kom je aan).</li>
-                <li><span class="highlight">Ondergewicht:</span> Minder energie binnen dan je verbruikt (val je af).</li>
-            </ul>
+            <div class="accordion" onclick="toggleAccordion(this)">
+                <div class="accordion-header">Energiebalans <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="accordion-content">
+                    <ul>
+                        <li>De balans tussen energie-inname (eten) en energieverbruik (bewegen).</li>
+                        <li><span class="highlight">In evenwicht:</span> Je gewicht blijft gelijk.</li>
+                        <li><span class="highlight">Overgewicht:</span> Meer energie binnen dan je verbruikt.</li>
+                        <li><span class="highlight">Ondergewicht:</span> Minder energie binnen dan je verbruikt.</li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <!-- GEZONDHEID TAB -->
         <div id="gezondheid" class="topic-card">
-            <h2>Gezondheid, Zelfzorg & Preventie</h2>
-            
-            <h3>Vier Soorten Zelfzorg</h3>
-            <ul>
-                <li><strong>Lichamelijke zelfzorg:</strong> Tanden poetsen, haren wassen.</li>
-                <li><strong>Geestelijke zelfzorg:</strong> Yoga, ademhalingsoefeningen.</li>
-                <li><strong>Sociale zelfzorg:</strong> Afspreken met vrienden, familie bellen.</li>
-                <li><strong>Spirituele zelfzorg:</strong> Meditatie, geloof, bezig zijn met zingeving.</li>
-            </ul>
+            <div class="accordion" onclick="toggleAccordion(this)">
+                <div class="accordion-header">Vier Soorten Zelfzorg <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="accordion-content">
+                    <ul>
+                        <li><strong>Lichamelijke zelfzorg:</strong> Tanden poetsen, haren wassen.</li>
+                        <li><strong>Geestelijke zelfzorg:</strong> Yoga, ademhalingsoefeningen.</li>
+                        <li><strong>Sociale zelfzorg:</strong> Afspreken met vrienden, familie bellen.</li>
+                        <li><strong>Spirituele zelfzorg:</strong> Meditatie, geloof, zingeving.</li>
+                    </ul>
+                </div>
+            </div>
 
-            <h3>Het Gezondheidsmodel (Gezond Leven)</h3>
-            <ul>
-                <li><strong>Gedrag:</strong> Wordt bepaald door drie factoren:</li>
-                <li><span class="highlight">Competenties:</span> Wat iemand kan en weet (kennis/vaardigheden).</li>
-                <li><span class="highlight">Driften:</span> Wat iemand wil en belangrijk vindt (motivatie).</li>
-                <li><span class="highlight">Context:</span> De omgeving en situatie waarin iemand leeft.</li>
-            </ul>
+            <div class="accordion" onclick="toggleAccordion(this)">
+                <div class="accordion-header">Het Gezondheidsmodel (Gezond Leven) <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="accordion-content">
+                    <ul>
+                        <li><strong>Gedrag:</strong> Wordt bepaald door drie factoren:</li>
+                        <li><span class="highlight">Competenties:</span> Wat iemand kan en weet.</li>
+                        <li><span class="highlight">Driften:</span> Wat iemand wil en belangrijk vindt.</li>
+                        <li><span class="highlight">Context:</span> De omgeving en situatie.</li>
+                    </ul>
+                </div>
+            </div>
 
-            <h3>Niveaus van Preventie</h3>
-            <ul>
-                <li><strong>Primaire preventie:</strong> Voorkomen dat een ziekte ontstaat (bijv. vaccinaties).</li>
-                <li><strong>Secundaire preventie:</strong> Vroegtijdige opsporing om erger te voorkomen (bijv. screening).</li>
-                <li><strong>Tertiaire preventie:</strong> Beperken van de gevolgen/complicaties van een bestaande ziekte (bijv. revalidatie).</li>
-            </ul>
+            <div class="accordion" onclick="toggleAccordion(this)">
+                <div class="accordion-header">Niveaus van Preventie <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="accordion-content">
+                    <ul>
+                        <li><strong>Primaire preventie:</strong> Voorkomen dat een ziekte ontstaat (vaccinaties).</li>
+                        <li><strong>Secundaire preventie:</strong> Vroegtijdige opsporing (screening).</li>
+                        <li><strong>Tertiaire preventie:</strong> Beperken van de gevolgen (revalidatie).</li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <!-- FLASHCARDS TAB -->
         <div id="flashcards" class="topic-card">
-            <h2>Flashcards</h2>
-            <p>Klik op de kaart om het antwoord te zien. Test jezelf!</p>
-            
             <div class="flashcard-wrapper">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+
                 <div class="flashcard" id="flashcard" onclick="flipCard()">
                     <div class="flashcard-inner">
                         <div class="flashcard-front" id="card-front">
@@ -332,9 +246,9 @@
                 </div>
                 
                 <div class="flashcard-controls">
-                    <button onclick="prevCard()">Vorige</button>
+                    <button onclick="prevCard(event)"><i class="fa-solid fa-arrow-left"></i> Vorige</button>
                     <span class="card-counter" id="card-counter">1 / 8</span>
-                    <button onclick="nextCard()">Volgende</button>
+                    <button onclick="nextCard(event)">Volgende <i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
         </div>
@@ -343,15 +257,17 @@
 
     <script>
         // --- TAB LOGIC ---
-        function openTab(tabName) {
-            const cards = document.querySelectorAll('.topic-card');
-            cards.forEach(card => card.classList.remove('active'));
-
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-
+        function openTab(tabName, btn) {
+            document.querySelectorAll('.topic-card').forEach(card => card.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
             document.getElementById(tabName).classList.add('active');
-            event.currentTarget.classList.add('active');
+            btn.classList.add('active');
+        }
+
+        // --- ACCORDION LOGIC ---
+        function toggleAccordion(element) {
+            element.classList.toggle('active');
         }
 
         // --- FLASHCARD LOGIC ---
@@ -371,14 +287,19 @@
         const frontText = document.getElementById('card-front');
         const backText = document.getElementById('card-back');
         const counterText = document.getElementById('card-counter');
+        const progressBar = document.getElementById('progress-bar');
 
         function updateCard() {
             flashcardElement.classList.remove('flipped');
-            // Small delay to allow the flip back animation to finish before changing text
             setTimeout(() => {
                 frontText.innerText = flashcards[currentCardIndex].q;
                 backText.innerText = flashcards[currentCardIndex].a;
                 counterText.innerText = `${currentCardIndex + 1} / ${flashcards.length}`;
+                
+                // Update progress bar
+                const progress = ((currentCardIndex + 1) / flashcards.length) * 100;
+                progressBar.style.width = progress + '%';
+
             }, 150);
         }
 
@@ -386,21 +307,22 @@
             flashcardElement.classList.toggle('flipped');
         }
 
-        function nextCard() {
+        function nextCard(event) {
+            event.stopPropagation();
             if (currentCardIndex < flashcards.length - 1) {
                 currentCardIndex++;
                 updateCard();
             }
         }
 
-        function prevCard() {
+        function prevCard(event) {
+            event.stopPropagation();
             if (currentCardIndex > 0) {
                 currentCardIndex--;
                 updateCard();
             }
         }
 
-        // Initialize first card on load
         updateCard();
     </script>
 </body>
