@@ -16,6 +16,7 @@ This project transforms static textbook pages into a dynamic, easy-to-use applic
 - **First Aid (EHBO):** Detailed breakdowns of cuts, burns, and the 6 fundamental first aid principles.
 - **Digestive System (Spijsvertering):** The pathway of food and the concept of energy balance (Energiebalans).
 - **Health & Prevention (Gezondheid):** The 4 types of self-care, the health model (Gezond Leven), and the 3 levels of prevention.
+- **Flashcard System:** Test your knowledge with interactive, 3D-flipping flashcards covering all the material. 
 - **Responsive Design:** Clean, modern UI that works on desktop and mobile.
 
 **How to Use:**
@@ -34,6 +35,7 @@ Dit project verandert statische tekstboekpagina's in een dynamische, gebruiksvri
 - **EHBO:** Gedetailleerde uitleg over snijwonden, brandwonden en de 6 basisprincipes van eerste hulp.
 - **Spijsvertering:** De weg die het voedsel aflegt en het concept van de energiebalans.
 - **Gezondheid & Preventie:** De 4 soorten zelfzorg, het gezondheidsmodel (Gezond Leven) en de 3 niveaus van preventie.
+- **Flashcard Systeem:** Test je kennis met interactieve, 3D-flippende flashcards over alle behandelde stof.
 - **Responsive Design:** Een strakke, moderne interface die werkt op zowel desktop als mobiel.
 
 **Hoe te gebruiken:**
