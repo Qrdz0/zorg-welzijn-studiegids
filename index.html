@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zorg & Welzijn - Studie Gids</title>
+    <title>Zorg & Welzijn - Interactieve Studie Gids</title>
     <style>
         :root {
             --primary: #2e7d32;
@@ -83,7 +83,7 @@
             margin-bottom: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             border-left: 5px solid var(--primary);
-            display: none; /* Hidden by default */
+            display: none; 
             animation: fadeIn 0.4s ease-in-out;
         }
 
@@ -124,12 +124,99 @@
             font-weight: 600;
             color: var(--primary);
         }
+
+        /* --- FLASHCARD CSS --- */
+        .flashcard-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .flashcard {
+            background-color: transparent;
+            width: 100%;
+            max-width: 500px;
+            height: 250px;
+            perspective: 1000px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .flashcard-front {
+            background-color: #ffffff;
+            color: var(--primary);
+            border: 2px solid var(--primary-light);
+        }
+
+        .flashcard-back {
+            background-color: var(--primary);
+            color: white;
+            transform: rotateY(180deg);
+            font-size: 1.1em;
+        }
+
+        .flashcard-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .flashcard-controls button {
+            padding: 10px 20px;
+            background-color: var(--primary-light);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .flashcard-controls button:hover {
+            background-color: var(--primary);
+        }
+
+        .card-counter {
+            font-weight: bold;
+            color: var(--text-light);
+        }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>🩺 Zorg & Welzijn</h1>
+        <h1>Zorg & Welzijn</h1>
         <p>Interactieve Studie Gids</p>
     </div>
 
@@ -137,6 +224,7 @@
         <button class="tab-btn active" onclick="openTab('ehbo')">EHBO</button>
         <button class="tab-btn" onclick="openTab('spijsvertering')">Spijsvertering</button>
         <button class="tab-btn" onclick="openTab('gezondheid')">Gezondheid & Preventie</button>
+        <button class="tab-btn" onclick="openTab('flashcards')">Oefen met Flashcards</button>
     </div>
 
     <div class="content-area">
@@ -224,28 +312,96 @@
                 <li><strong>Secundaire preventie:</strong> Vroegtijdige opsporing om erger te voorkomen (bijv. screening).</li>
                 <li><strong>Tertiaire preventie:</strong> Beperken van de gevolgen/complicaties van een bestaande ziekte (bijv. revalidatie).</li>
             </ul>
-            <p><em>Gezondheidsbevordering:</em> Gezonde levensstijl stimuleren (voedingsdriehoek).<br>
-            <em>Gezondheidsbescherming:</em> Bevolking beschermen (drinkwaterkwaliteit, verkeersveiligheid).</p>
+        </div>
+
+        <!-- FLASHCARDS TAB -->
+        <div id="flashcards" class="topic-card">
+            <h2>Flashcards</h2>
+            <p>Klik op de kaart om het antwoord te zien. Test jezelf!</p>
+            
+            <div class="flashcard-wrapper">
+                <div class="flashcard" id="flashcard" onclick="flipCard()">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front" id="card-front">
+                            Vraag laden...
+                        </div>
+                        <div class="flashcard-back" id="card-back">
+                            Antwoord laden...
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flashcard-controls">
+                    <button onclick="prevCard()">Vorige</button>
+                    <span class="card-counter" id="card-counter">1 / 8</span>
+                    <button onclick="nextCard()">Volgende</button>
+                </div>
+            </div>
         </div>
 
     </div>
 
     <script>
+        // --- TAB LOGIC ---
         function openTab(tabName) {
-            // Hide all cards
             const cards = document.querySelectorAll('.topic-card');
             cards.forEach(card => card.classList.remove('active'));
 
-            // Remove active state from all buttons
             const buttons = document.querySelectorAll('.tab-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
 
-            // Show selected card
             document.getElementById(tabName).classList.add('active');
-
-            // Add active state to clicked button
             event.currentTarget.classList.add('active');
         }
+
+        // --- FLASHCARD LOGIC ---
+        const flashcards = [
+            { q: "Wat zijn de 3 niveaus van preventie?", a: "Primaire (voorkomen), Secundaire (vroeg opsporen), Tertiaire (gevolgen beperken)." },
+            { q: "Wat is het verschil tussen 1e, 2e en 3e graads brandwonden?", a: "1e = rood/pijnlijk. 2e = blaren/zeer pijnlijk. 3e = zwart/wit, GEEN pijn (zenuwen kapot)." },
+            { q: "Noem de 3 factoren die gedrag bepalen (Gezondheidsmodel)", a: "Competenties (kunnen), Driften (willen), Context (omgeving)." },
+            { q: "Wat is de energiebalans?", a: "De balans tussen energie-inname (eten) en energieverbruik (bewegen)." },
+            { q: "Wat is het verschil tussen een snijwonde en een schaafwonde qua pijn?", a: "Een snijwonde doet MINDER pijn, omdat er minder zenuwuiteinden geraakt worden." },
+            { q: "Wat is het laatste orgaan in de spijsvertering voordat het eruit gaat?", a: "De endeldarm en de aars." },
+            { q: "Noem de 4 soorten zelfzorg.", a: "Lichamelijke, Geestelijke, Sociale en Spirituele zelfzorg." },
+            { q: "Wat moet je altijd doen bij een brandwonde?", a: "Koelen met lauw stromend water (minstens 10 minuten)." }
+        ];
+
+        let currentCardIndex = 0;
+        const flashcardElement = document.getElementById('flashcard');
+        const frontText = document.getElementById('card-front');
+        const backText = document.getElementById('card-back');
+        const counterText = document.getElementById('card-counter');
+
+        function updateCard() {
+            flashcardElement.classList.remove('flipped');
+            // Small delay to allow the flip back animation to finish before changing text
+            setTimeout(() => {
+                frontText.innerText = flashcards[currentCardIndex].q;
+                backText.innerText = flashcards[currentCardIndex].a;
+                counterText.innerText = `${currentCardIndex + 1} / ${flashcards.length}`;
+            }, 150);
+        }
+
+        function flipCard() {
+            flashcardElement.classList.toggle('flipped');
+        }
+
+        function nextCard() {
+            if (currentCardIndex < flashcards.length - 1) {
+                currentCardIndex++;
+                updateCard();
+            }
+        }
+
+        function prevCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateCard();
+            }
+        }
+
+        // Initialize first card on load
+        updateCard();
     </script>
 </body>
 </html>
