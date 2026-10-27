@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zorg & Welzijn - Studie Gids</title>
+    <title>Zorg & Welzijn - Interactieve Studiegids</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #0ea5e9; /* Modern Medical Blue */
+            --primary: #0ea5e9; /* Medical Blue */
             --primary-dark: #0284c7;
             --secondary: #10b981; /* Healthy Green */
             --bg: #f8fafc;
@@ -33,9 +33,7 @@
         .header h1 { color: var(--primary-dark); font-size: 2.5rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .header p { color: var(--text-muted); font-size: 1.1rem; }
 
-        .tabs {
-            display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap;
-        }
+        .tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
 
         .tab-btn {
             padding: 12px 24px; font-size: 1rem; border: none; background-color: var(--card-bg); color: var(--text-muted);
@@ -53,21 +51,12 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ACCORDION STYLES */
-        .accordion {
-            background-color: var(--card-bg); border-radius: 12px; box-shadow: var(--shadow); margin-bottom: 15px; overflow: hidden; border: 1px solid var(--border);
-        }
-
-        .accordion-header {
-            padding: 18px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 1.1rem; color: var(--primary-dark); transition: background 0.2s;
-        }
-
+        .accordion { background-color: var(--card-bg); border-radius: 12px; box-shadow: var(--shadow); margin-bottom: 15px; overflow: hidden; border: 1px solid var(--border); }
+        .accordion-header { padding: 18px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 1.1rem; color: var(--primary-dark); transition: background 0.2s; }
         .accordion-header:hover { background-color: #f1f5f9; }
         .accordion-header i { transition: transform 0.3s; }
         .accordion.active .accordion-header i { transform: rotate(180deg); }
-
-        .accordion-content {
-            max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background-color: var(--card-bg); padding: 0 20px;
-        }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background-color: var(--card-bg); padding: 0 20px; }
         .accordion.active .accordion-content { max-height: 1000px; padding-bottom: 20px; border-top: 1px solid var(--border); }
 
         ul { padding-left: 20px; margin-top: 10px; }
@@ -76,27 +65,34 @@
 
         /* FLASHCARD STYLES */
         .flashcard-wrapper { display: flex; flex-direction: column; align-items: center; margin-top: 20px; }
-        
         .progress-container { width: 100%; max-width: 500px; height: 8px; background: #e2e8f0; border-radius: 10px; margin-bottom: 20px; overflow: hidden; }
         .progress-bar { height: 100%; background: var(--secondary); width: 0%; transition: width 0.3s ease; }
-
         .flashcard { background-color: transparent; width: 100%; max-width: 500px; height: 300px; perspective: 1000px; cursor: pointer; margin-bottom: 20px; }
         .flashcard-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
         .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
-        
-        .flashcard-front, .flashcard-back {
-            position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden;
-            border-radius: 16px; box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center;
-            padding: 30px; box-sizing: border-box; font-size: 1.3rem; font-weight: 600;
-        }
-
+        .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 16px; box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; padding: 30px; box-sizing: border-box; font-size: 1.3rem; font-weight: 600; }
         .flashcard-front { background-color: var(--card-bg); color: var(--primary-dark); border: 2px solid var(--primary); }
         .flashcard-back { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; transform: rotateY(180deg); font-size: 1.1rem; font-weight: 400; }
-        
         .flashcard-controls { display: flex; gap: 15px; align-items: center; margin-top: 10px; }
         .flashcard-controls button { padding: 12px 24px; background-color: var(--card-bg); color: var(--primary-dark); border: 1px solid var(--border); border-radius: 50px; cursor: pointer; font-weight: 700; box-shadow: var(--shadow); transition: 0.2s; }
         .flashcard-controls button:hover { background-color: var(--primary); color: white; border-color: var(--primary); }
         .card-counter { font-weight: 700; color: var(--text-muted); background: var(--card-bg); padding: 8px 16px; border-radius: 20px; box-shadow: var(--shadow); }
+
+        /* QUIZ STYLES */
+        .quiz-container { background: var(--card-bg); border-radius: 16px; box-shadow: var(--shadow); padding: 30px; width: 100%; max-width: 600px; margin-top: 20px; }
+        .quiz-header { display: flex; justify-content: space-between; font-weight: bold; color: var(--text-muted); margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        .quiz-question { font-size: 1.3rem; font-weight: 700; color: var(--text-main); margin-bottom: 20px; }
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+        .quiz-option { padding: 15px; border: 2px solid var(--border); border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.2s; background: #f8fafc; }
+        .quiz-option:hover { border-color: var(--primary); background: #e0f2fe; }
+        .quiz-option.correct { background: #dcfce7; border-color: var(--secondary); color: #166534; }
+        .quiz-option.wrong { background: #fee2e2; border-color: #ef4444; color: #991b1b; }
+        .quiz-option.disabled { pointer-events: none; opacity: 0.7; }
+        .quiz-next-btn { margin-top: 20px; padding: 12px 30px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; display: none; width: 100%; transition: 0.2s; }
+        .quiz-next-btn:hover { background: var(--primary-dark); }
+        .quiz-results { text-align: center; display: none; }
+        .quiz-results h2 { color: var(--secondary); font-size: 2rem; margin-bottom: 10px; }
+        .quiz-results p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -111,13 +107,13 @@
         <button class="tab-btn" onclick="openTab('spijsvertering', this)"><i class="fa-solid fa-apple-whole"></i> Spijsvertering</button>
         <button class="tab-btn" onclick="openTab('gezondheid', this)"><i class="fa-solid fa-heart-pulse"></i> Gezondheid</button>
         <button class="tab-btn" onclick="openTab('flashcards', this)"><i class="fa-solid fa-clone"></i> Flashcards</button>
+        <button class="tab-btn" onclick="openTab('quiz', this); initQuiz();"><i class="fa-solid fa-gamepad"></i> Oefen Quiz</button>
     </div>
 
     <div class="content-area">
         
         <!-- EHBO TAB -->
         <div id="ehbo" class="topic-card active">
-            
             <div class="accordion" onclick="toggleAccordion(this)">
                 <div class="accordion-header">De 6 Basisprincipes van EHBO <i class="fa-solid fa-chevron-down"></i></div>
                 <div class="accordion-content">
@@ -131,7 +127,6 @@
                     </ul>
                 </div>
             </div>
-
             <div class="accordion" onclick="toggleAccordion(this)">
                 <div class="accordion-header">Snijwonde <i class="fa-solid fa-chevron-down"></i></div>
                 <div class="accordion-content">
@@ -140,11 +135,9 @@
                         <li><span class="highlight">Oppervlakkig:</span> Kleine insnijding, lichte bloeding.</li>
                         <li><span class="highlight">Diep:</span> Heviger bloeden, scherp afgelijnde randen.</li>
                         <li>Minder pijnlijk dan een schaafwonde (minder zenuwuiteinden geraakt).</li>
-                        <li><strong>Stappen:</strong> Veiligheid -> Beoordeel -> Raadpleeg hulp -> Verleen eerste hulp (drukken, reinigen, steriel kompres, verband).</li>
                     </ul>
                 </div>
             </div>
-
             <div class="accordion" onclick="toggleAccordion(this)">
                 <div class="accordion-header">Brandwonde <i class="fa-solid fa-chevron-down"></i></div>
                 <div class="accordion-content">
@@ -153,7 +146,7 @@
                         <li><span class="highlight">1e Graad:</span> Rood, licht gezwollen, pijnlijk.</li>
                         <li><span class="highlight">2e Graad:</span> Blaren, rood of wit, zeer pijnlijk.</li>
                         <li><span class="highlight">3e Graad:</span> Zwart, wit of perkamentachtig. <strong>Niet pijnlijk</strong> (zenuwen zijn kapot).</li>
-                        <li><strong>Stappen:</strong> Veiligheid -> Beoordeel -> Raadpleeg 112 -> Koel minstens 10 min met lauw water. Verwijder geen vastzittende kleding.</li>
+                        <li><strong>Behandeling:</strong> Koel minstens 10 min met lauw water. Verwijder geen vastzittende kleding.</li>
                     </ul>
                 </div>
             </div>
@@ -175,7 +168,6 @@
                     </ul>
                 </div>
             </div>
-
             <div class="accordion" onclick="toggleAccordion(this)">
                 <div class="accordion-header">Energiebalans <i class="fa-solid fa-chevron-down"></i></div>
                 <div class="accordion-content">
@@ -202,19 +194,6 @@
                     </ul>
                 </div>
             </div>
-
-            <div class="accordion" onclick="toggleAccordion(this)">
-                <div class="accordion-header">Het Gezondheidsmodel (Gezond Leven) <i class="fa-solid fa-chevron-down"></i></div>
-                <div class="accordion-content">
-                    <ul>
-                        <li><strong>Gedrag:</strong> Wordt bepaald door drie factoren:</li>
-                        <li><span class="highlight">Competenties:</span> Wat iemand kan en weet.</li>
-                        <li><span class="highlight">Driften:</span> Wat iemand wil en belangrijk vindt.</li>
-                        <li><span class="highlight">Context:</span> De omgeving en situatie.</li>
-                    </ul>
-                </div>
-            </div>
-
             <div class="accordion" onclick="toggleAccordion(this)">
                 <div class="accordion-header">Niveaus van Preventie <i class="fa-solid fa-chevron-down"></i></div>
                 <div class="accordion-content">
@@ -230,25 +209,36 @@
         <!-- FLASHCARDS TAB -->
         <div id="flashcards" class="topic-card">
             <div class="flashcard-wrapper">
-                <div class="progress-container">
-                    <div class="progress-bar" id="progress-bar"></div>
-                </div>
-
+                <div class="progress-container"><div class="progress-bar" id="progress-bar"></div></div>
                 <div class="flashcard" id="flashcard" onclick="flipCard()">
                     <div class="flashcard-inner">
-                        <div class="flashcard-front" id="card-front">
-                            Vraag laden...
-                        </div>
-                        <div class="flashcard-back" id="card-back">
-                            Antwoord laden...
-                        </div>
+                        <div class="flashcard-front" id="card-front">Vraag laden...</div>
+                        <div class="flashcard-back" id="card-back">Antwoord laden...</div>
                     </div>
                 </div>
-                
                 <div class="flashcard-controls">
                     <button onclick="prevCard(event)"><i class="fa-solid fa-arrow-left"></i> Vorige</button>
                     <span class="card-counter" id="card-counter">1 / 8</span>
                     <button onclick="nextCard(event)">Volgende <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUIZ TAB -->
+        <div id="quiz" class="topic-card">
+            <div class="quiz-container" id="quiz-container">
+                <div class="quiz-header">
+                    <span id="quiz-progress">Vraag 1 / 5</span>
+                    <span id="quiz-score">Score: 0</span>
+                </div>
+                <div class="quiz-question" id="quiz-question">Vraag laden...</div>
+                <div class="quiz-options" id="quiz-options"></div>
+                <button class="quiz-next-btn" id="quiz-next-btn" onclick="nextQuizQuestion()">Volgende Vraag</button>
+                
+                <div class="quiz-results" id="quiz-results">
+                    <h2>Quiz Voltooid!</h2>
+                    <p id="quiz-final-score">Je hebt 0 van de 5 vragen goed.</p>
+                    <button class="tab-btn" onclick="initQuiz()" style="margin: 0 auto; background: var(--primary); color: white;">Opnieuw Proberen</button>
                 </div>
             </div>
         </div>
@@ -260,7 +250,6 @@
         function openTab(tabName, btn) {
             document.querySelectorAll('.topic-card').forEach(card => card.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            
             document.getElementById(tabName).classList.add('active');
             btn.classList.add('active');
         }
@@ -295,35 +284,93 @@
                 frontText.innerText = flashcards[currentCardIndex].q;
                 backText.innerText = flashcards[currentCardIndex].a;
                 counterText.innerText = `${currentCardIndex + 1} / ${flashcards.length}`;
-                
-                // Update progress bar
-                const progress = ((currentCardIndex + 1) / flashcards.length) * 100;
-                progressBar.style.width = progress + '%';
-
+                progressBar.style.width = (((currentCardIndex + 1) / flashcards.length) * 100) + '%';
             }, 150);
         }
-
-        function flipCard() {
-            flashcardElement.classList.toggle('flipped');
-        }
-
-        function nextCard(event) {
-            event.stopPropagation();
-            if (currentCardIndex < flashcards.length - 1) {
-                currentCardIndex++;
-                updateCard();
-            }
-        }
-
-        function prevCard(event) {
-            event.stopPropagation();
-            if (currentCardIndex > 0) {
-                currentCardIndex--;
-                updateCard();
-            }
-        }
-
+        function flipCard() { flashcardElement.classList.toggle('flipped'); }
+        function nextCard(event) { event.stopPropagation(); if (currentCardIndex < flashcards.length - 1) { currentCardIndex++; updateCard(); } }
+        function prevCard(event) { event.stopPropagation(); if (currentCardIndex > 0) { currentCardIndex--; updateCard(); } }
         updateCard();
+
+        // --- QUIZ LOGIC ---
+        const quizData = [
+            { q: "Wat moet je doen bij een 3e graads brandwonde?", options: ["Koelen met ijs", "Meteen insmeren met zalf", "112 bellen en de wonde afdekken", "De blaren doorprikken"], correct: 2 },
+            { q: "Welk orgaan voegt gal en alvleessap toe aan het voedsel?", options: ["De maag", "De dikke darm", "De twaalfvingerige darm", "De slokdarm"], correct: 2 },
+            { q: "Wat is een voorbeeld van tertiaire preventie?", options: ["Vaccinaties", "Revalidatie na een ongeluk", "Screening op kanker", "Handen wassen"], correct: 1 },
+            { q: "Waarom doet een snijwonde minder pijn dan een schaafwonde?", options: ["Omdat er minder bloed uit komt", "Omdat er minder zenuwuiteinden geraakt worden", "Omdat de huid dikker is", "Omdat het een scherp voorwerp is"], correct: 1 },
+            { q: "Wat is GEEN vorm van zelfzorg?", options: ["Lichamelijke zelfzorg", "Sociale zelfzorg", "Financiële zelfzorg", "Spirituele zelfzorg"], correct: 2 }
+        ];
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let quizAnswered = false;
+
+        function initQuiz() {
+            currentQuizIndex = 0;
+            quizScore = 0;
+            quizAnswered = false;
+            document.getElementById('quiz-results').style.display = 'none';
+            document.getElementById('quiz-question').style.display = 'block';
+            document.getElementById('quiz-options').style.display = 'flex';
+            document.getElementById('quiz-next-btn').style.display = 'none';
+            loadQuizQuestion();
+        }
+
+        function loadQuizQuestion() {
+            const q = quizData[currentQuizIndex];
+            document.getElementById('quiz-progress').innerText = `Vraag ${currentQuizIndex + 1} / ${quizData.length}`;
+            document.getElementById('quiz-score').innerText = `Score: ${quizScore}`;
+            document.getElementById('quiz-question').innerText = q.q;
+            
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+            quizAnswered = false;
+            document.getElementById('quiz-next-btn').style.display = 'none';
+
+            q.options.forEach((opt, index) => {
+                const div = document.createElement('div');
+                div.className = 'quiz-option';
+                div.innerText = opt;
+                div.onclick = () => checkQuizAnswer(index, div);
+                optionsContainer.appendChild(div);
+            });
+        }
+
+        function checkQuizAnswer(selectedIndex, element) {
+            if (quizAnswered) return;
+            quizAnswered = true;
+            
+            const correctIndex = quizData[currentQuizIndex].correct;
+            const allOptions = document.querySelectorAll('.quiz-option');
+            
+            allOptions.forEach((opt, i) => {
+                opt.classList.add('disabled');
+                if (i === correctIndex) opt.classList.add('correct');
+                if (i === selectedIndex && selectedIndex !== correctIndex) opt.classList.add('wrong');
+            });
+
+            if (selectedIndex === correctIndex) quizScore++;
+            
+            document.getElementById('quiz-score').innerText = `Score: ${quizScore}`;
+            
+            if (currentQuizIndex < quizData.length - 1) {
+                document.getElementById('quiz-next-btn').style.display = 'block';
+            } else {
+                setTimeout(showQuizResults, 1000);
+            }
+        }
+
+        function nextQuizQuestion() {
+            currentQuizIndex++;
+            loadQuizQuestion();
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-question').style.display = 'none';
+            document.getElementById('quiz-options').style.display = 'none';
+            document.getElementById('quiz-next-btn').style.display = 'none';
+            document.getElementById('quiz-results').style.display = 'block';
+            document.getElementById('quiz-final-score').innerText = `Je hebt ${quizScore} van de ${quizData.length} vragen goed!`;
+        }
     </script>
 </body>
 </html>
