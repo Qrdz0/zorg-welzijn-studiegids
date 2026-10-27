@@ -7,23 +7,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #0ea5e9; /* Medical Blue */
-            --primary-dark: #0284c7;
-            --secondary: #10b981; /* Healthy Green */
-            --accent: #f59e0b; /* Warning/Orange for Maaltijdzorg */
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-hover: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --bg: #1a1512;          /* Dark gritty brown/black */
+            --card-bg: #221a16;     /* Slightly lighter container */
+            --primary: #f9a825;     /* Hexium Gold */
+            --primary-dark: #c68500;
+            --secondary: #4caf50;   /* Success Green */
+            --danger: #d32f2f;      /* Error Red */
+            --text-main: #e0e0e0;   /* Light grey text */
+            --text-muted: #8b8b8b;
+            --border: #3e2f26;      /* Dark border */
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
         body {
-            background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%);
+            background-color: var(--bg);
             color: var(--text-main);
             min-height: 100vh;
             padding: 20px;
@@ -31,33 +29,31 @@
         }
 
         .header { text-align: center; margin-bottom: 30px; padding-top: 20px; }
-        .header h1 { color: var(--primary-dark); font-size: 2.5rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .header p { color: var(--text-muted); font-size: 1.1rem; }
+        .header h1 { color: var(--primary); font-size: 2.5rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .header p { color: var(--text-muted); font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; font-weight: bold;}
 
-        .tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+        .tabs { display: flex; justify-content: center; gap: 5px; margin-bottom: 30px; flex-wrap: wrap; }
 
         .tab-btn {
-            padding: 12px 24px; font-size: 1rem; border: none; background-color: var(--card-bg); color: var(--text-muted);
-            border-radius: 50px; cursor: pointer; box-shadow: var(--shadow); transition: all 0.3s ease; font-weight: 600;
+            padding: 10px 20px; font-size: 0.95rem; border: 1px solid var(--border); background-color: var(--card-bg); color: var(--text-muted);
+            border-radius: 0px; /* STRICTLY BLOCKY */
+            cursor: pointer; transition: all 0.2s ease; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
             display: flex; align-items: center; gap: 8px;
         }
         
-        .tab-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); color: var(--primary-dark); }
-        .tab-btn.active { background-color: var(--primary); color: white; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4); }
+        .tab-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .tab-btn.active { background-color: var(--primary); color: #000; border-color: var(--primary); }
         
-        /* Maaltijdzorg specific active color */
-        .tab-btn.active.maaltijd { background-color: var(--accent); box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); }
-
         .content-area { max-width: 800px; margin: 0 auto; }
-        .topic-card { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .topic-card { display: none; animation: fadeIn 0.2s ease-in-out; }
         .topic-card.active { display: block; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ACCORDION STYLES */
-        .accordion { background-color: var(--card-bg); border-radius: 12px; box-shadow: var(--shadow); margin-bottom: 15px; overflow: hidden; border: 1px solid var(--border); }
-        .accordion-header { padding: 18px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 1.1rem; color: var(--primary-dark); transition: background 0.2s; }
-        .accordion-header:hover { background-color: #f1f5f9; }
+        .accordion { background-color: var(--card-bg); border: 1px solid var(--border); border-radius: 0px; margin-bottom: 10px; }
+        .accordion-header { padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 1rem; color: var(--primary); transition: background 0.2s; text-transform: uppercase;}
+        .accordion-header:hover { background-color: #2b211c; }
         .accordion-header i { transition: transform 0.3s; }
         .accordion.active .accordion-header i { transform: rotate(180deg); }
         .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background-color: var(--card-bg); padding: 0 20px; }
@@ -65,53 +61,67 @@
 
         ul { padding-left: 20px; margin-top: 10px; }
         li { margin-bottom: 8px; color: var(--text-main); }
-        .highlight { background-color: #dcfce7; color: #166534; padding: 2px 6px; border-radius: 4px; font-weight: 600; font-size: 0.95em; }
-        .highlight-warn { background-color: #fef3c7; color: #92400e; padding: 2px 6px; border-radius: 4px; font-weight: 600; font-size: 0.95em; }
+        strong { color: var(--primary); }
+        .highlight { background-color: rgba(76, 175, 80, 0.15); color: var(--secondary); padding: 2px 6px; border: 1px solid rgba(76, 175, 80, 0.3); font-weight: 600; font-size: 0.9em; }
+        .highlight-warn { background-color: rgba(249, 168, 37, 0.15); color: var(--primary); padding: 2px 6px; border: 1px solid rgba(249, 168, 37, 0.3); font-weight: 600; font-size: 0.9em; }
 
         /* FLASHCARD STYLES */
         .flashcard-wrapper { display: flex; flex-direction: column; align-items: center; margin-top: 20px; }
-        .progress-container { width: 100%; max-width: 500px; height: 8px; background: #e2e8f0; border-radius: 10px; margin-bottom: 20px; overflow: hidden; }
-        .progress-bar { height: 100%; background: var(--secondary); width: 0%; transition: width 0.3s ease; }
+        .progress-container { width: 100%; max-width: 500px; height: 4px; background: var(--border); margin-bottom: 20px; }
+        .progress-bar { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s ease; }
+        
         .flashcard { background-color: transparent; width: 100%; max-width: 500px; height: 300px; perspective: 1000px; cursor: pointer; margin-bottom: 20px; }
         .flashcard-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
         .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
-        .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 16px; box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; padding: 30px; box-sizing: border-box; font-size: 1.3rem; font-weight: 600; }
-        .flashcard-front { background-color: var(--card-bg); color: var(--primary-dark); border: 2px solid var(--primary); }
-        .flashcard-back { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; transform: rotateY(180deg); font-size: 1.1rem; font-weight: 400; }
-        .flashcard-controls { display: flex; gap: 15px; align-items: center; margin-top: 10px; }
-        .flashcard-controls button { padding: 12px 24px; background-color: var(--card-bg); color: var(--primary-dark); border: 1px solid var(--border); border-radius: 50px; cursor: pointer; font-weight: 700; box-shadow: var(--shadow); transition: 0.2s; }
-        .flashcard-controls button:hover { background-color: var(--primary); color: white; border-color: var(--primary); }
-        .card-counter { font-weight: 700; color: var(--text-muted); background: var(--card-bg); padding: 8px 16px; border-radius: 20px; box-shadow: var(--shadow); }
+        
+        .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 30px; box-sizing: border-box; font-size: 1.2rem; font-weight: 600; }
+        .flashcard-front { background-color: var(--card-bg); color: var(--primary); border: 2px solid var(--primary); }
+        .flashcard-back { background-color: var(--primary); color: #000; transform: rotateY(180deg); font-size: 1.1rem; }
+        
+        .flashcard-controls { display: flex; gap: 10px; align-items: center; margin-top: 10px; }
+        .flashcard-controls button { padding: 10px 20px; background-color: var(--card-bg); color: var(--primary); border: 1px solid var(--border); cursor: pointer; font-weight: 700; text-transform: uppercase; transition: 0.2s; }
+        .flashcard-controls button:hover { border-color: var(--primary); background-color: #2b211c; }
+        .card-counter { font-weight: 700; color: var(--text-muted); background: var(--card-bg); padding: 10px 15px; border: 1px solid var(--border); }
 
         /* QUIZ STYLES */
-        .quiz-container { background: var(--card-bg); border-radius: 16px; box-shadow: var(--shadow); padding: 30px; width: 100%; max-width: 600px; margin-top: 20px; }
-        .quiz-header { display: flex; justify-content: space-between; font-weight: bold; color: var(--text-muted); margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-        .quiz-question { font-size: 1.3rem; font-weight: 700; color: var(--text-main); margin-bottom: 20px; }
-        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
-        .quiz-option { padding: 15px; border: 2px solid var(--border); border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.2s; background: #f8fafc; }
-        .quiz-option:hover { border-color: var(--primary); background: #e0f2fe; }
-        .quiz-option.correct { background: #dcfce7; border-color: var(--secondary); color: #166534; }
-        .quiz-option.wrong { background: #fee2e2; border-color: #ef4444; color: #991b1b; }
-        .quiz-option.disabled { pointer-events: none; opacity: 0.7; }
-        .quiz-next-btn { margin-top: 20px; padding: 12px 30px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; display: none; width: 100%; transition: 0.2s; }
+        .quiz-container { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; width: 100%; max-width: 600px; margin-top: 20px; }
+        .quiz-header { display: flex; justify-content: space-between; font-weight: bold; color: var(--primary); margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; text-transform: uppercase; font-size: 0.9rem;}
+        .quiz-question { font-size: 1.2rem; font-weight: 700; color: var(--text-main); margin-bottom: 20px; }
+        .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+        
+        .quiz-option { padding: 15px; border: 1px solid var(--border); cursor: pointer; font-weight: 600; transition: 0.2s; background: #110e0c; color: var(--text-muted); }
+        .quiz-option:hover { border-color: var(--primary); color: var(--text-main); }
+        
+        .quiz-option.correct { background: rgba(76, 175, 80, 0.1); border-color: var(--secondary); color: var(--secondary); }
+        .quiz-option.wrong { background: rgba(211, 47, 47, 0.1); border-color: var(--danger); color: var(--danger); }
+        .quiz-option.disabled { pointer-events: none; opacity: 0.8; }
+        
+        .quiz-next-btn { margin-top: 20px; padding: 15px; background: var(--primary); color: #000; border: none; font-weight: 800; text-transform: uppercase; cursor: pointer; display: none; width: 100%; transition: 0.2s; }
         .quiz-next-btn:hover { background: var(--primary-dark); }
+        
         .quiz-results { text-align: center; display: none; }
-        .quiz-results h2 { color: var(--secondary); font-size: 2rem; margin-bottom: 10px; }
-        .quiz-results p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 20px; }
+        .quiz-results h2 { color: var(--secondary); font-size: 1.8rem; margin-bottom: 10px; text-transform: uppercase;}
+        .quiz-results p { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 20px; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
     </style>
 </head>
 <body>
 
     <div class="header">
         <h1><i class="fa-solid fa-notes-medical"></i> Zorg & Welzijn</h1>
-        <p>Interactieve Studie Gids</p>
+        <p>Interactieve Studiegids</p>
     </div>
 
     <div class="tabs">
         <button class="tab-btn active" onclick="openTab('ehbo', this)"><i class="fa-solid fa-briefcase-medical"></i> EHBO</button>
         <button class="tab-btn" onclick="openTab('spijsvertering', this)"><i class="fa-solid fa-apple-whole"></i> Spijsvertering</button>
         <button class="tab-btn" onclick="openTab('gezondheid', this)"><i class="fa-solid fa-heart-pulse"></i> Gezondheid</button>
-        <button class="tab-btn maaltijd" onclick="openTab('maaltijdzorg', this)"><i class="fa-solid fa-utensils"></i> Maaltijdzorg</button>
+        <button class="tab-btn" onclick="openTab('maaltijdzorg', this)"><i class="fa-solid fa-utensils"></i> Maaltijdzorg</button>
         <button class="tab-btn" onclick="openTab('flashcards', this)"><i class="fa-solid fa-clone"></i> Flashcards</button>
         <button class="tab-btn" onclick="openTab('quiz', this); initQuiz();"><i class="fa-solid fa-gamepad"></i> Oefen Quiz</button>
     </div>
@@ -212,10 +222,10 @@
             </div>
         </div>
 
-        <!-- MAALTIJDZORG TAB (NEW) -->
+        <!-- MAALTIJDZORG TAB -->
         <div id="maaltijdzorg" class="topic-card">
             <div class="accordion" onclick="toggleAccordion(this)">
-                <div class="accordion-header" style="color: var(--accent);">Hygiëne in de keuken <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="accordion-header">Hygiëne in de keuken <i class="fa-solid fa-chevron-down"></i></div>
                 <div class="accordion-content">
                     <ul>
                         <li><strong>Waarom?</strong> Om ziektes te voorkomen en de verspreiding van bacteriën tegen te gaan.</li>
@@ -227,7 +237,7 @@
             </div>
             
             <div class="accordion" onclick="toggleAccordion(this)">
-                <div class="accordion-header" style="color: var(--accent);">Afval Sorteren <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="accordion-header">Afval Sorteren <i class="fa-solid fa-chevron-down"></i></div>
                 <div class="accordion-content">
                     <ul>
                         <li><strong>Waarom?</strong> Afval trekt ongedierte en micro-organismen aan (schimmelvorming). Sorteren is beter voor het milieu.</li>
@@ -242,7 +252,7 @@
             </div>
 
             <div class="accordion" onclick="toggleAccordion(this)">
-                <div class="accordion-header" style="color: var(--accent);">Ergonomie in de keuken <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="accordion-header">Ergonomie in de keuken <i class="fa-solid fa-chevron-down"></i></div>
                 <div class="accordion-content">
                     <ul>
                         <li><strong>Ergonomie:</strong> De werkomgeving aanpassen aan de mens (gezondheid & veiligheid).</li>
@@ -254,7 +264,7 @@
             </div>
 
             <div class="accordion" onclick="toggleAccordion(this)">
-                <div class="accordion-header" style="color: var(--accent);">De 4 G's (Evenwichtige Voeding) <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="accordion-header">De 4 G's (Evenwichtige Voeding) <i class="fa-solid fa-chevron-down"></i></div>
                 <div class="accordion-content">
                     <ul>
                         <li><strong>Genieten:</strong> Aandacht voor gezelligheid, smaak en hoeveelheid.</li>
@@ -298,7 +308,7 @@
                 <div class="quiz-results" id="quiz-results">
                     <h2>Quiz Voltooid!</h2>
                     <p id="quiz-final-score">Je hebt 0 van de 7 vragen goed.</p>
-                    <button class="tab-btn" onclick="initQuiz()" style="margin: 0 auto; background: var(--primary); color: white;">Opnieuw Proberen</button>
+                    <button class="tab-btn" onclick="initQuiz()" style="margin: 0 auto; background: var(--primary); color: #000;">Opnieuw Proberen</button>
                 </div>
             </div>
         </div>
@@ -321,12 +331,10 @@
 
         // --- FLASHCARD LOGIC ---
         const flashcards = [
-            // Zorg & Welzijn
             { q: "Wat zijn de 3 niveaus van preventie?", a: "Primaire (voorkomen), Secundaire (vroeg opsporen), Tertiaire (gevolgen beperken)." },
             { q: "Wat is het verschil tussen 1e, 2e en 3e graads brandwonden?", a: "1e = rood/pijnlijk. 2e = blaren/zeer pijnlijk. 3e = zwart/wit, GEEN pijn (zenuwen kapot)." },
             { q: "Wat is de energiebalans?", a: "De balans tussen energie-inname (eten) en energieverbruik (bewegen)." },
             { q: "Noem de 4 soorten zelfzorg.", a: "Lichamelijke, Geestelijke, Sociale en Spirituele zelfzorg." },
-            // Maaltijdzorg
             { q: "Wat zijn de 4 G's voor gezonde voeding?", a: "Genieten, Gevarieerd, Genoeg, Gestructureerd." },
             { q: "Hoe moet je correct tillen (hef- en tiltechniek)?", a: "Door de knieën buigen, rug recht houden en tillen met de benen (niet met de rug)." },
             { q: "Waar hoort een glazen ovenschotel bij het sorteren?", a: "Restafval (dit mag NIET bij het glas)." },
@@ -360,10 +368,8 @@
 
         // --- QUIZ LOGIC ---
         const quizData = [
-            // Zorg & Welzijn
             { q: "Wat moet je doen bij een 3e graads brandwonde?", options: ["Koelen met ijs", "Meteen insmeren met zalf", "112 bellen en de wonde afdekken", "De blaren doorprikken"], correct: 2 },
             { q: "Waarom doet een snijwonde minder pijn dan een schaafwonde?", options: ["Omdat er minder bloed uit komt", "Omdat er minder zenuwuiteinden geraakt worden", "Omdat de huid dikker is", "Omdat het een scherp voorwerp is"], correct: 1 },
-            // Maaltijdzorg
             { q: "Waar hoort een lege glazen confituurpot?", options: ["Restafval", "Glas", "PMD", "Papier"], correct: 1 },
             { q: "Wat is GEEN regel voor persoonlijke hygiëne in de keuken?", options: ["Haren samenbinden", "Korte schone nagels hebben", "Lange valse nagels dragen", "Een schort dragen"], correct: 2 },
             { q: "Wat is de juiste tiltechniek?", options: ["Met een kromme rug tillen", "Tillen met je armen", "Door de knieën buigen en rug recht houden", "Snel tillen zonder na te denken"], correct: 2 },
