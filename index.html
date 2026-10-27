@@ -10,6 +10,7 @@
             --primary: #0ea5e9; /* Medical Blue */
             --primary-dark: #0284c7;
             --secondary: #10b981; /* Healthy Green */
+            --accent: #f59e0b; /* Warning/Orange for Maaltijdzorg */
             --bg: #f8fafc;
             --card-bg: #ffffff;
             --text-main: #1e293b;
@@ -43,6 +44,9 @@
         
         .tab-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); color: var(--primary-dark); }
         .tab-btn.active { background-color: var(--primary); color: white; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4); }
+        
+        /* Maaltijdzorg specific active color */
+        .tab-btn.active.maaltijd { background-color: var(--accent); box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); }
 
         .content-area { max-width: 800px; margin: 0 auto; }
         .topic-card { display: none; animation: fadeIn 0.4s ease-in-out; }
@@ -62,6 +66,7 @@
         ul { padding-left: 20px; margin-top: 10px; }
         li { margin-bottom: 8px; color: var(--text-main); }
         .highlight { background-color: #dcfce7; color: #166534; padding: 2px 6px; border-radius: 4px; font-weight: 600; font-size: 0.95em; }
+        .highlight-warn { background-color: #fef3c7; color: #92400e; padding: 2px 6px; border-radius: 4px; font-weight: 600; font-size: 0.95em; }
 
         /* FLASHCARD STYLES */
         .flashcard-wrapper { display: flex; flex-direction: column; align-items: center; margin-top: 20px; }
@@ -106,6 +111,7 @@
         <button class="tab-btn active" onclick="openTab('ehbo', this)"><i class="fa-solid fa-briefcase-medical"></i> EHBO</button>
         <button class="tab-btn" onclick="openTab('spijsvertering', this)"><i class="fa-solid fa-apple-whole"></i> Spijsvertering</button>
         <button class="tab-btn" onclick="openTab('gezondheid', this)"><i class="fa-solid fa-heart-pulse"></i> Gezondheid</button>
+        <button class="tab-btn maaltijd" onclick="openTab('maaltijdzorg', this)"><i class="fa-solid fa-utensils"></i> Maaltijdzorg</button>
         <button class="tab-btn" onclick="openTab('flashcards', this)"><i class="fa-solid fa-clone"></i> Flashcards</button>
         <button class="tab-btn" onclick="openTab('quiz', this); initQuiz();"><i class="fa-solid fa-gamepad"></i> Oefen Quiz</button>
     </div>
@@ -206,6 +212,60 @@
             </div>
         </div>
 
+        <!-- MAALTIJDZORG TAB (NEW) -->
+        <div id="maaltijdzorg" class="topic-card">
+            <div class="accordion" onclick="toggleAccordion(this)">
+                <div class="accordion-header" style="color: var(--accent);">Hygiëne in de keuken <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="accordion-content">
+                    <ul>
+                        <li><strong>Waarom?</strong> Om ziektes te voorkomen en de verspreiding van bacteriën tegen te gaan.</li>
+                        <li><strong>Persoonlijke hygiëne:</strong> Handen wassen, haren samenbinden, schone korte nagels (geen nagellak/valse nagels), schort dragen, thuisblijven als je ziek bent.</li>
+                        <li><strong>Keukenhygiëne:</strong> Afval meteen weggooien, vuilnisbak ontsmetten, schone hulpmiddelen gebruiken.</li>
+                        <li><strong>Voedselhygiëne:</strong> Rauw vlees apart houden (onderin de koelkast), vuile en schone vaat scheiden.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="accordion" onclick="toggleAccordion(this)">
+                <div class="accordion-header" style="color: var(--accent);">Afval Sorteren <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="accordion-content">
+                    <ul>
+                        <li><strong>Waarom?</strong> Afval trekt ongedierte en micro-organismen aan (schimmelvorming). Sorteren is beter voor het milieu.</li>
+                        <li><strong>Hoe beperken?</strong> Minder verpakte producten kopen, herbruikbare materialen gebruiken.</li>
+                        <li><span class="highlight">PMD:</span> Plastic flessen, metalen blikjes, drankkartons.</li>
+                        <li><span class="highlight">GFT:</span> Groente-, fruit- en tuinafval (appelschillen, theezakjes).</li>
+                        <li><span class="highlight">Papier/Karton:</span> Kranten, dozen, reclamefolders.</li>
+                        <li><span class="highlight">Glas:</span> Glazen potten en flessen (GEEN ovenschalen, dat is restafval!).</li>
+                        <li><span class="highlight">Restafval:</span> Kauwgom, sponsen, vuile verpakkingen.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion" onclick="toggleAccordion(this)">
+                <div class="accordion-header" style="color: var(--accent);">Ergonomie in de keuken <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="accordion-content">
+                    <ul>
+                        <li><strong>Ergonomie:</strong> De werkomgeving aanpassen aan de mens (gezondheid & veiligheid).</li>
+                        <li><strong>Goede Zithouding:</strong> Scherm op ooghoogte, voeten plat op de grond, onderrug tegen de leuning.</li>
+                        <li><strong>Goede Staahouding:</strong> Scherm op 50-70cm, armen in een hoek van 90 graden.</li>
+                        <li><strong>Hef- en Tiltechniek:</strong> <span class="highlight-warn">Altijd door de knieën buigen</span>, rug recht houden, til met je benen (niet met je rug).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion" onclick="toggleAccordion(this)">
+                <div class="accordion-header" style="color: var(--accent);">De 4 G's (Evenwichtige Voeding) <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="accordion-content">
+                    <ul>
+                        <li><strong>Genieten:</strong> Aandacht voor gezelligheid, smaak en hoeveelheid.</li>
+                        <li><strong>Gevarieerd:</strong> Voldoende variatie in producten, nieuwe smaken durven ontdekken.</li>
+                        <li><strong>Genoeg:</strong> Luisteren naar je lichaam (heb ik nog honger of zit ik vol?).</li>
+                        <li><strong>Gestructureerd:</strong> Regelmaat in maaltijden, tussendoortjes en water drinken.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <!-- FLASHCARDS TAB -->
         <div id="flashcards" class="topic-card">
             <div class="flashcard-wrapper">
@@ -218,7 +278,7 @@
                 </div>
                 <div class="flashcard-controls">
                     <button onclick="prevCard(event)"><i class="fa-solid fa-arrow-left"></i> Vorige</button>
-                    <span class="card-counter" id="card-counter">1 / 8</span>
+                    <span class="card-counter" id="card-counter">1 / 12</span>
                     <button onclick="nextCard(event)">Volgende <i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
@@ -228,7 +288,7 @@
         <div id="quiz" class="topic-card">
             <div class="quiz-container" id="quiz-container">
                 <div class="quiz-header">
-                    <span id="quiz-progress">Vraag 1 / 5</span>
+                    <span id="quiz-progress">Vraag 1 / 7</span>
                     <span id="quiz-score">Score: 0</span>
                 </div>
                 <div class="quiz-question" id="quiz-question">Vraag laden...</div>
@@ -237,7 +297,7 @@
                 
                 <div class="quiz-results" id="quiz-results">
                     <h2>Quiz Voltooid!</h2>
-                    <p id="quiz-final-score">Je hebt 0 van de 5 vragen goed.</p>
+                    <p id="quiz-final-score">Je hebt 0 van de 7 vragen goed.</p>
                     <button class="tab-btn" onclick="initQuiz()" style="margin: 0 auto; background: var(--primary); color: white;">Opnieuw Proberen</button>
                 </div>
             </div>
@@ -261,14 +321,20 @@
 
         // --- FLASHCARD LOGIC ---
         const flashcards = [
+            // Zorg & Welzijn
             { q: "Wat zijn de 3 niveaus van preventie?", a: "Primaire (voorkomen), Secundaire (vroeg opsporen), Tertiaire (gevolgen beperken)." },
             { q: "Wat is het verschil tussen 1e, 2e en 3e graads brandwonden?", a: "1e = rood/pijnlijk. 2e = blaren/zeer pijnlijk. 3e = zwart/wit, GEEN pijn (zenuwen kapot)." },
-            { q: "Noem de 3 factoren die gedrag bepalen (Gezondheidsmodel)", a: "Competenties (kunnen), Driften (willen), Context (omgeving)." },
             { q: "Wat is de energiebalans?", a: "De balans tussen energie-inname (eten) en energieverbruik (bewegen)." },
-            { q: "Wat is het verschil tussen een snijwonde en een schaafwonde qua pijn?", a: "Een snijwonde doet MINDER pijn, omdat er minder zenuwuiteinden geraakt worden." },
-            { q: "Wat is het laatste orgaan in de spijsvertering voordat het eruit gaat?", a: "De endeldarm en de aars." },
             { q: "Noem de 4 soorten zelfzorg.", a: "Lichamelijke, Geestelijke, Sociale en Spirituele zelfzorg." },
-            { q: "Wat moet je altijd doen bij een brandwonde?", a: "Koelen met lauw stromend water (minstens 10 minuten)." }
+            // Maaltijdzorg
+            { q: "Wat zijn de 4 G's voor gezonde voeding?", a: "Genieten, Gevarieerd, Genoeg, Gestructureerd." },
+            { q: "Hoe moet je correct tillen (hef- en tiltechniek)?", a: "Door de knieën buigen, rug recht houden en tillen met de benen (niet met de rug)." },
+            { q: "Waar hoort een glazen ovenschotel bij het sorteren?", a: "Restafval (dit mag NIET bij het glas)." },
+            { q: "Wat betekent de afkorting PMD?", a: "Plastic, Metaal en Drankkartons." },
+            { q: "Wat is ergonomie?", a: "De werkomgeving (zoals de keuken) aanpassen aan de mens om gezondheid en veiligheid te bevorderen." },
+            { q: "Wat is een voorbeeld van keukenhygiëne?", a: "Afval meteen weggooien, de vuilnisbak ontsmetten en schone hulpmiddelen gebruiken." },
+            { q: "Wat is een goede zithouding achter een computer?", a: "Scherm op ooghoogte, voeten plat op de grond, onderrug tegen de leuning." },
+            { q: "Waarom is voedselhygiëne belangrijk?", a: "Om te voorkomen dat bacteriën zich verspreiden (bijv. rauw vlees onderin de koelkast bewaren)." }
         ];
 
         let currentCardIndex = 0;
@@ -294,12 +360,17 @@
 
         // --- QUIZ LOGIC ---
         const quizData = [
+            // Zorg & Welzijn
             { q: "Wat moet je doen bij een 3e graads brandwonde?", options: ["Koelen met ijs", "Meteen insmeren met zalf", "112 bellen en de wonde afdekken", "De blaren doorprikken"], correct: 2 },
-            { q: "Welk orgaan voegt gal en alvleessap toe aan het voedsel?", options: ["De maag", "De dikke darm", "De twaalfvingerige darm", "De slokdarm"], correct: 2 },
-            { q: "Wat is een voorbeeld van tertiaire preventie?", options: ["Vaccinaties", "Revalidatie na een ongeluk", "Screening op kanker", "Handen wassen"], correct: 1 },
             { q: "Waarom doet een snijwonde minder pijn dan een schaafwonde?", options: ["Omdat er minder bloed uit komt", "Omdat er minder zenuwuiteinden geraakt worden", "Omdat de huid dikker is", "Omdat het een scherp voorwerp is"], correct: 1 },
-            { q: "Wat is GEEN vorm van zelfzorg?", options: ["Lichamelijke zelfzorg", "Sociale zelfzorg", "Financiële zelfzorg", "Spirituele zelfzorg"], correct: 2 }
+            // Maaltijdzorg
+            { q: "Waar hoort een lege glazen confituurpot?", options: ["Restafval", "Glas", "PMD", "Papier"], correct: 1 },
+            { q: "Wat is GEEN regel voor persoonlijke hygiëne in de keuken?", options: ["Haren samenbinden", "Korte schone nagels hebben", "Lange valse nagels dragen", "Een schort dragen"], correct: 2 },
+            { q: "Wat is de juiste tiltechniek?", options: ["Met een kromme rug tillen", "Tillen met je armen", "Door de knieën buigen en rug recht houden", "Snel tillen zonder na te denken"], correct: 2 },
+            { q: "Wat is een voorbeeld van een GFT-afval?", options: ["Plastic flesje", "Appelschillen", "Krant", "Blikje"], correct: 1 },
+            { q: "Welke van de 4 G's gaat over luisteren naar je lichaam (heb ik nog honger)?", options: ["Genieten", "Gevarieerd", "Genoeg", "Gestructureerd"], correct: 2 }
         ];
+
         let currentQuizIndex = 0;
         let quizScore = 0;
         let quizAnswered = false;
