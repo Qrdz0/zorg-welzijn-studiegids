@@ -7,15 +7,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg: #1a1512;          /* Dark gritty brown/black */
-            --card-bg: #221a16;     /* Slightly lighter container */
-            --primary: #f9a825;     /* Hexium Gold */
-            --primary-dark: #c68500;
-            --secondary: #4caf50;   /* Success Green */
+            --bg: #f4f7f6;          /* Light clean gray */
+            --card-bg: #ffffff;     /* Pure white cards */
+            --primary: #2e7d32;     /* Medical Green */
+            --primary-dark: #1b5e20;
+            --secondary: #4caf50;   /* Lighter Green */
             --danger: #d32f2f;      /* Error Red */
-            --text-main: #e0e0e0;   /* Light grey text */
-            --text-muted: #8b8b8b;
-            --border: #3e2f26;      /* Dark border */
+            --text-main: #333333;   /* Dark grey text */
+            --text-muted: #666666;
+            --border: #d1d5db;      /* Crisp grey borders */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -29,20 +29,22 @@
         }
 
         .header { text-align: center; margin-bottom: 30px; padding-top: 20px; }
-        .header h1 { color: var(--primary); font-size: 2.5rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .header h1 { color: var(--primary); font-size: 2.2rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .header p { color: var(--text-muted); font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; font-weight: bold;}
 
-        .tabs { display: flex; justify-content: center; gap: 5px; margin-bottom: 30px; flex-wrap: wrap; }
+        /* STRICTLY BLOCKY TABS */
+        .tabs { display: flex; justify-content: center; gap: 0; margin-bottom: 30px; flex-wrap: wrap; }
 
         .tab-btn {
-            padding: 10px 20px; font-size: 0.95rem; border: 1px solid var(--border); background-color: var(--card-bg); color: var(--text-muted);
-            border-radius: 0px; /* STRICTLY BLOCKY */
+            padding: 12px 24px; font-size: 0.95rem; border: 1px solid var(--border); background-color: var(--card-bg); color: var(--text-muted);
+            border-radius: 0px; /* Hexium blocky style */
             cursor: pointer; transition: all 0.2s ease; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
-            display: flex; align-items: center; gap: 8px;
+            display: flex; align-items: center; gap: 8px; margin-left: -1px; /* Overlap borders */
         }
         
-        .tab-btn:hover { border-color: var(--primary); color: var(--primary); }
-        .tab-btn.active { background-color: var(--primary); color: #000; border-color: var(--primary); }
+        .tab-btn:first-child { margin-left: 0; }
+        .tab-btn:hover { background-color: #e8f5e9; color: var(--primary); }
+        .tab-btn.active { background-color: var(--primary); color: white; border-color: var(--primary); z-index: 1;}
         
         .content-area { max-width: 800px; margin: 0 auto; }
         .topic-card { display: none; animation: fadeIn 0.2s ease-in-out; }
@@ -51,9 +53,9 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ACCORDION STYLES */
-        .accordion { background-color: var(--card-bg); border: 1px solid var(--border); border-radius: 0px; margin-bottom: 10px; }
+        .accordion { background-color: var(--card-bg); border: 1px solid var(--border); border-radius: 0px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);}
         .accordion-header { padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 1rem; color: var(--primary); transition: background 0.2s; text-transform: uppercase;}
-        .accordion-header:hover { background-color: #2b211c; }
+        .accordion-header:hover { background-color: #f8fafc; }
         .accordion-header i { transition: transform 0.3s; }
         .accordion.active .accordion-header i { transform: rotate(180deg); }
         .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background-color: var(--card-bg); padding: 0 20px; }
@@ -61,53 +63,47 @@
 
         ul { padding-left: 20px; margin-top: 10px; }
         li { margin-bottom: 8px; color: var(--text-main); }
-        strong { color: var(--primary); }
-        .highlight { background-color: rgba(76, 175, 80, 0.15); color: var(--secondary); padding: 2px 6px; border: 1px solid rgba(76, 175, 80, 0.3); font-weight: 600; font-size: 0.9em; }
-        .highlight-warn { background-color: rgba(249, 168, 37, 0.15); color: var(--primary); padding: 2px 6px; border: 1px solid rgba(249, 168, 37, 0.3); font-weight: 600; font-size: 0.9em; }
+        strong { color: var(--primary-dark); }
+        .highlight { background-color: #e8f5e9; color: var(--primary-dark); padding: 2px 6px; border: 1px solid #c8e6c9; font-weight: 600; font-size: 0.9em; }
+        .highlight-warn { background-color: #fff3e0; color: #e65100; padding: 2px 6px; border: 1px solid #ffe0b2; font-weight: 600; font-size: 0.9em; }
 
         /* FLASHCARD STYLES */
         .flashcard-wrapper { display: flex; flex-direction: column; align-items: center; margin-top: 20px; }
-        .progress-container { width: 100%; max-width: 500px; height: 4px; background: var(--border); margin-bottom: 20px; }
-        .progress-bar { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s ease; }
+        .progress-container { width: 100%; max-width: 500px; height: 6px; background: var(--border); margin-bottom: 20px; border-radius: 0px;}
+        .progress-bar { height: 100%; background: var(--secondary); width: 0%; transition: width 0.3s ease; }
         
         .flashcard { background-color: transparent; width: 100%; max-width: 500px; height: 300px; perspective: 1000px; cursor: pointer; margin-bottom: 20px; }
         .flashcard-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
         .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
         
-        .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 30px; box-sizing: border-box; font-size: 1.2rem; font-weight: 600; }
+        .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 30px; box-sizing: border-box; font-size: 1.2rem; font-weight: 600; border-radius: 0px;}
         .flashcard-front { background-color: var(--card-bg); color: var(--primary); border: 2px solid var(--primary); }
-        .flashcard-back { background-color: var(--primary); color: #000; transform: rotateY(180deg); font-size: 1.1rem; }
+        .flashcard-back { background-color: var(--primary); color: white; transform: rotateY(180deg); font-size: 1.1rem; }
         
         .flashcard-controls { display: flex; gap: 10px; align-items: center; margin-top: 10px; }
-        .flashcard-controls button { padding: 10px 20px; background-color: var(--card-bg); color: var(--primary); border: 1px solid var(--border); cursor: pointer; font-weight: 700; text-transform: uppercase; transition: 0.2s; }
-        .flashcard-controls button:hover { border-color: var(--primary); background-color: #2b211c; }
-        .card-counter { font-weight: 700; color: var(--text-muted); background: var(--card-bg); padding: 10px 15px; border: 1px solid var(--border); }
+        .flashcard-controls button { padding: 10px 20px; background-color: var(--card-bg); color: var(--primary); border: 1px solid var(--border); border-radius: 0px; cursor: pointer; font-weight: 700; text-transform: uppercase; transition: 0.2s; }
+        .flashcard-controls button:hover { border-color: var(--primary); background-color: #e8f5e9; }
+        .card-counter { font-weight: 700; color: var(--text-muted); background: var(--card-bg); padding: 10px 15px; border: 1px solid var(--border); border-radius: 0px;}
 
         /* QUIZ STYLES */
-        .quiz-container { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; width: 100%; max-width: 600px; margin-top: 20px; }
+        .quiz-container { background: var(--card-bg); border: 1px solid var(--border); border-radius: 0px; padding: 30px; width: 100%; max-width: 600px; margin-top: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);}
         .quiz-header { display: flex; justify-content: space-between; font-weight: bold; color: var(--primary); margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; text-transform: uppercase; font-size: 0.9rem;}
         .quiz-question { font-size: 1.2rem; font-weight: 700; color: var(--text-main); margin-bottom: 20px; }
         .quiz-options { display: flex; flex-direction: column; gap: 10px; }
         
-        .quiz-option { padding: 15px; border: 1px solid var(--border); cursor: pointer; font-weight: 600; transition: 0.2s; background: #110e0c; color: var(--text-muted); }
-        .quiz-option:hover { border-color: var(--primary); color: var(--text-main); }
+        .quiz-option { padding: 15px; border: 1px solid var(--border); border-radius: 0px; cursor: pointer; font-weight: 600; transition: 0.2s; background: #f8fafc; color: var(--text-muted); }
+        .quiz-option:hover { border-color: var(--primary); color: var(--text-main); background: #e8f5e9;}
         
-        .quiz-option.correct { background: rgba(76, 175, 80, 0.1); border-color: var(--secondary); color: var(--secondary); }
-        .quiz-option.wrong { background: rgba(211, 47, 47, 0.1); border-color: var(--danger); color: var(--danger); }
+        .quiz-option.correct { background: #e8f5e9; border-color: var(--secondary); color: var(--primary-dark); }
+        .quiz-option.wrong { background: #ffebee; border-color: var(--danger); color: var(--danger); }
         .quiz-option.disabled { pointer-events: none; opacity: 0.8; }
         
-        .quiz-next-btn { margin-top: 20px; padding: 15px; background: var(--primary); color: #000; border: none; font-weight: 800; text-transform: uppercase; cursor: pointer; display: none; width: 100%; transition: 0.2s; }
+        .quiz-next-btn { margin-top: 20px; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 0px; font-weight: 800; text-transform: uppercase; cursor: pointer; display: none; width: 100%; transition: 0.2s; }
         .quiz-next-btn:hover { background: var(--primary-dark); }
         
         .quiz-results { text-align: center; display: none; }
-        .quiz-results h2 { color: var(--secondary); font-size: 1.8rem; margin-bottom: 10px; text-transform: uppercase;}
+        .quiz-results h2 { color: var(--primary); font-size: 1.8rem; margin-bottom: 10px; text-transform: uppercase;}
         .quiz-results p { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 20px; }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: var(--border); }
-        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
     </style>
 </head>
 <body>
@@ -308,7 +304,7 @@
                 <div class="quiz-results" id="quiz-results">
                     <h2>Quiz Voltooid!</h2>
                     <p id="quiz-final-score">Je hebt 0 van de 7 vragen goed.</p>
-                    <button class="tab-btn" onclick="initQuiz()" style="margin: 0 auto; background: var(--primary); color: #000;">Opnieuw Proberen</button>
+                    <button class="tab-btn" onclick="initQuiz()" style="margin: 0 auto; background: var(--primary); color: white;">Opnieuw Proberen</button>
                 </div>
             </div>
         </div>
